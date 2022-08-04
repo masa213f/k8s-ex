@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+  - name: my-jammy
+    image: ubuntu:jammy
+    command: ["bash", "-c", "trap 'kill $(jobs -p)' EXIT; sleep 9999"]
+    volumeMounts:
+    - mountPath: /mount-point-in-jammy
+      name: my-volume
+
+  - name: my-focal
+    image: ubuntu:focal
+    command: ["bash", "-c", "trap 'kill $(jobs -p)' EXIT; sleep 8888"]
+    volumeMounts:
+    - mountPath: /mount-point-in-focal
+      name: my-volume
+
+  restartPolicy: Always
+  volumes:
+  - name: my-volume
+    emptyDir: {}

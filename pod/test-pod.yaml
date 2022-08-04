@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+  # Ubuntu 22.04 LTS (Jammy Jellyfish)
+  - name: my-jammy
+    image: ubuntu:jammy
+    command: ["bash", "-c", "trap 'kill $(jobs -p)' EXIT; sleep 9999"]
+
+  # Ubuntu 20.04.4 LTS (Focal Fossa)
+  - name: my-focal
+    image: ubuntu:focal
+    command: ["bash", "-c", "trap 'kill $(jobs -p)' EXIT; sleep 8888"]
+
+  # Restart each container when exits.
+  restartPolicy: Always
+  #restartPolicy: Never
+
+  #shareProcessNamespace: true
